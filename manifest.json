@@ -1,0 +1,1 @@
+{"short_name":"Coord","name":"Coordinates","icons":[{"src":"Icon.png","type":"image/png","sizes":"192x192"}],"lang":"ja-JP","description":"Coordinatesは,複数の座標系を見比べられます。","display":"standalone","start_url":"?standalone=yes","background_color":"#FFFFFF","theme_color":"#990000"}
