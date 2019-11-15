@@ -42,3 +42,7 @@ Coordinatesは,複数の座標系を見比べられます。
 - Internet Explorerでは利用できない。
 - iOSデバイスは, iOS 13 以降が必要。
 - iPhone X 対応。
+
+### 更新内容
+- 描画モードとして Canvas,SVG に対応
+- その他,幾つかのバグを修正
