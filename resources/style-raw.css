@@ -1,0 +1,121 @@
+*{
+	font-weight:300;
+	font-family:standard;
+	cursor:default;
+	user-select:none;
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	touch-action:none;
+}
+html,body{
+	width:100vw;
+	height:100vh;
+}
+body{
+	background-color:var(--background);
+}
+body,#base,#drawView,#inputView{
+	position:fixed;
+	left:0px;
+	right:0px;
+	top:0px;
+	bottom:0px;
+}
+body{
+	transition:background-color 0.3s ease-in-out;
+	margin:0px;
+}
+#statusbar{
+	z-index:1;
+}
+#drawView{
+	z-index:2;
+}
+#inputView{
+	z-index:3;
+}
+#menuButton{
+	z-index:4;
+}
+#menuView{
+	z-index:5;
+}
+#statusbar{
+	transition:background-color 0.3s ease-in-out;
+	background-color:var(--statusbar);
+	position:fixed;
+	left:0px;
+	right:0px;
+	top:0px;
+	height:0px;
+	height:env(safe-area-inset-top);
+}
+canvas,svg{
+	margin:0px;
+	position:relative;
+	width:100%;
+	height:100%;
+}
+
+@media screen {
+	.light{
+		--point:rgb(51,51,51);
+		--cartesian:rgb(0,153,153);
+		--oblique:rgb(153,153,0);
+		--polar:rgb(153,0,153);
+		--parabolic:rgb(153,0,0);
+		--parabolic-counterpart:rgba(153,0,0,0.3);
+		--elliptic:rgb(0,153,0);
+		--elliptic-counterpart:rgba(0,153,0,0.3);
+		--bipolar:rgb(0,0,153);
+		--bipolar-counterpart:rgba(0,0,153,0.3);
+		--statusbar:rgba(102,102,102,0.5);
+		--background:#eeeeee;
+	}
+	.dark{
+		--point:rgb(204,204,204);
+		--cartesian:rgb(102,255,255);
+		--oblique:rgb(255,255,102);
+		--polar:rgb(255,102,255);
+		--parabolic:rgb(255,102,102);
+		--parabolic-counterpart:rgba(255,102,102,0.3);
+		--elliptic:rgb(102,255,102);
+		--elliptic-counterpart:rgba(102,255,102,0.3);
+		--bipolar:rgb(102,102,255);
+		--bipolar-counterpart:rgba(102,102,255,0.3);
+		--statusbar:transparent;
+		--background:#111111;
+	}
+}
+@media screen and (prefers-color-scheme: light) {
+	.pcs{
+		--point:rgb(51,51,51);
+		--cartesian:rgb(0,153,153);
+		--oblique:rgb(153,153,0);
+		--polar:rgb(153,0,153);
+		--parabolic:rgb(153,0,0);
+		--parabolic-counterpart:rgba(153,0,0,0.3);
+		--elliptic:rgb(0,153,0);
+		--elliptic-counterpart:rgba(0,153,0,0.3);
+		--bipolar:rgb(0,0,153);
+		--bipolar-counterpart:rgba(0,0,153,0.3);
+		--statusbar:rgba(102,102,102,0.5);
+		--background:#eeeeee;
+	}
+}
+@media screen and (prefers-color-scheme: dark) {
+	.pcs{
+		--point:rgb(204,204,204);
+		--cartesian:rgb(102,255,255);
+		--oblique:rgb(255,255,102);
+		--polar:rgb(255,102,255);
+		--parabolic:rgb(255,102,102);
+		--parabolic-counterpart:rgba(255,102,102,0.3);
+		--elliptic:rgb(102,255,102);
+		--elliptic-counterpart:rgba(102,255,102,0.3);
+		--bipolar:rgb(102,102,255);
+		--bipolar-counterpart:rgba(102,102,255,0.3);
+		--statusbar:transparent;
+		--background:#111111;
+	}
+}
