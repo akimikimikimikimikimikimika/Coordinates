@@ -97,8 +97,8 @@
 		/* draw line ax+by=c */
 		let linear=(a,b,c)=>{
 			if (a==0&&b==0) return "";
-			else if (a==0) return `M ${-w},${+c/b} H ${+w}`;
-			else if (b==0) return `M ${-c/a},${-h} V ${+h}`;
+			else if (a==0) return `M ${-w},${-c/b} H ${+w}`;
+			else if (b==0) return `M ${+c/a},${-h} V ${+h}`;
 			else {
 				let l=[+a*w+b*h-c,-a*w+b*h-c,-a*w-b*h-c,+a*w-b*h-c],p=[];
 				if (l[1]*l[2]<0) p.push(-w,(c+a*w)/b);

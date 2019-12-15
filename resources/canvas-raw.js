@@ -19,8 +19,8 @@
 		/* draw line ax+by=c */
 		let linear=(a,b,c)=>{
 			if (a==0&&b==0);
-			else if (a==0) hl(-c/b);
-			else if (b==0) vl(-c/a);
+			else if (a==0) hl(c/b);
+			else if (b==0) vl(c/a);
 			else {
 				let l=[+a*w+b*h-c,-a*w+b*h-c,-a*w-b*h-c,+a*w-b*h-c],p=[];
 				if (l[1]*l[2]<0) p.push(-w,(c+a*w)/b);
