@@ -20,11 +20,6 @@
 		if (t.standalone) c.push("standalone");
 		if (t.browser) c.push(t.browser.toLowerCase());
 		sc(html,c.join(" "));
-		switch (t.scheme) {
-			case 0:t.dark=false;break;
-			case 2:t.dark=true;break;
-			case 1:t.dark=cs.dark.matches;break;
-		}
 	};
 	let setter=(t,p,v)=>{
 		if ((p=="dark")&&(t[p]!=v)&&funcs) funcs.schemeChanged();

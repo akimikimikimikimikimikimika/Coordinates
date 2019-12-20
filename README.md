@@ -1,6 +1,6 @@
 ## Coordinates
 
-![Coordinates](Icon.png "Coordinates")
+![Coordinates](resources/icon.png "Coordinates")
 
 
 Coordinatesは,複数の座標系を見比べられます。  
