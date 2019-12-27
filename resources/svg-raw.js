@@ -1,15 +1,14 @@
-(()=>{
+window.framework("svg",(func,data,cse,ap,ib,rc,sa,sc,dpr)=>{
 
-	let ce=t=>document.createElementNS("http://www.w3.org/2000/svg",t),ap=(p,c)=>p.appendChild(c),ib=(e,a)=>a.parentNode.insertBefore(e,a),rc=c=>c.parentNode.removeChild(c),sa=(e,k,v)=>e.setAttribute(k,v),ra=(e,k)=>e.removeAttribute(k),ael=(e,t,f)=>e.addEventListener(t,f),sc=(e,c)=>{if (c) sa(e,"class",c);else ra(e,"class");return e;};
-
+	/* make a group of several elements */
 	let qm=(...args)=>{
-		let g=ce("g");
-		let l=Array.from(args).map(v=>ap(g,ce(v)));
+		let g=cse("g");
+		let l=args.map(v=>ap(g,cse(v)));
 		l.unshift(g);
 		return l;
 	};
 
-	let s=ce("svg"),st=ce("style"),
+	let s=cse("svg"),st=cse("style"),
 	ax=qm("path"),
 	ct=qm("path"),
 	pl=qm("path"),
@@ -19,33 +18,35 @@
 	bp=qm("path","path"),
 	pt=qm("circle");
 
-	let gl=[ct,pl,ob,pb,ep,bp,pt],onOff=(g,w)=>{
+	let gl=[ct,pl,ob,pb,ep,bp,pt];
+	let onOff=(g,w)=>{
 		let p=g[0].parentNode;
 		if (!w&&p) rc(g[0]);
 		if (w&&!p) {
 			var i=false;
 			for (var n=0;n<gl.length;n++) {
-				if (gl[n][0]==g[0]) i=true;
+				if (gl[n][0]==g[0]) i=true; /* find the index of "g" in "gl" */
 				else if (i&&gl[n][0].parentNode) {
+					/* looking for the closest following that is in the parent (SVG) element */
 					ib(g[0],gl[n][0]);
-					i=false;
+					break;
 				}
-				if (!g[0].parentNode) ap(s,g[0]);
-			};
+			}
+			if (!g[0].parentNode) ap(s,g[0]);
 		}
 	};
 
+	/* style definition */
 	(()=>{
-
-		let pr=window.devicePixelRatio;
 
 		ap(s,st);
 		st.textContent=`
 			svg>*{
 				fill:none;
-				stroke-width:${3*pr};
+				stroke-width:${3*dpr};
+				transition:fill 0.3s ease-in-out,stroke 0.3s ease-in-out;
 			}
-			.thin{stroke-width:${1*pr};}
+			.thin{stroke-width:${1*dpr};}
 			.counterpart{opacity:0.3;}
 		`;
 
@@ -71,14 +72,14 @@
 		sc(bp[2],"counterpart");
 
 		sa(pt[0],"style","fill:var(--point);");
-		sa(pt[1],"r",10*pr);
+		sa(pt[1],"r",10*dpr);
 		onOff(pt,true);
 
 	})();
 
-	let draw=o=>{
-		let x=o.x,y=o.y,r=o.r,t=o.t,a=o.a,w=o.w/2,h=o.h/2;
-		let oo=o.on;
+	func.cueManager(()=>o.visible)(true,()=>{
+		let x=data.x,y=data.y,r=data.r,t=data.t,a=data.a,w=data.w/2,h=data.h/2;
+		let oo=data.on;
 
 		sa(s,"width",w*2);
 		sa(s,"height",h*2);
@@ -130,7 +131,7 @@
 			let v=o.v;
 			sa(ob[1],"d",linear(+v,-1,v*x-y)+" "+linear(-1,+v,v*y-x));
 			sa(ob[2],"d",linear(+v,-1,0)+" "+linear(-1,+v,0));
-		})(o.oblique);
+		})(data.oblique);
 
 		/* Polar */
 		(()=>{
@@ -165,7 +166,7 @@
 			}
 			sa(pb[1],"d",dm);
 			sa(pb[2],"d",dc);
-		})(o.parabolic);
+		})(data.parabolic);
 
 		/* Elliptic */
 		(o=>{
@@ -226,7 +227,7 @@
 			sa(ep[1],"d",dm);
 			sa(ep[2],"d",dc);
 			sa(ep[3],"d",da);
-		})(o.elliptic);
+		})(data.elliptic);
 
 		/* Bipolar */
 		(o=>{
@@ -255,19 +256,19 @@
 			}
 			sa(bp[1],"d",dm);
 			sa(bp[2],"d",dc);
-		})(o.bipolar);
+		})(data.bipolar);
 
 		sa(pt[1],"cx",+x);
 		sa(pt[1],"cy",-y);
 
-	};
+	});
 
-	window.res("svg",{
+	let o={
 		name:"SVG",
 		icon:"S",
 		artifact:s,
-		draw:draw,
-		redrawOnSchemeChanged:false
-	});
+		visible:false
+	};
+	return o;
 
-})();
+});

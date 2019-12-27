@@ -1,33 +1,36 @@
-(()=>{
+window.framework("input",(func,status,renderer,data,cd,ael,bcr,abort)=>{
 
-	let ael=(e,t,f,o)=>e.addEventListener(t,f,o);
+	if (!window.PointerEvent) {
+		console.log("Pointer event is not supported on this browser");
+		abort();
+		return;
+	}
 
-	var status,coord,funcs,w,h;
+	var w,h;
 
-	let i=document.createElement("div");
-	i.id="inputView";
+	let i=cd("inputView");
 
 	/* Event listeners */
 	var valid=false;
 	let c=e=>{
-		let x=+coord.w*(e.clientX/w-0.5),y=-coord.h*(e.clientY/h-0.5);
+		let x=+data.w*(e.clientX/w-0.5),y=-data.h*(e.clientY/h-0.5);
 		switch (status.inputMode) {
 			case 0:
-				coord.x=x;
-				coord.y=y;
+				data.x=x;
+				data.y=y;
 				break;
 			case 1:
-				if (x!=0) coord.a=abs(x);
+				if (x!=0) data.a=abs(x);
 				break;
 			case 2:
 				switch (sign(abs(y)-abs(x))) {
-					case  0:coord.oblique.v=sign(x*y);break;
-					case +1:coord.oblique.v=x/y;break;
-					case -1:coord.oblique.v=y/x;break;
+					case  0:data.oblique.v=sign(x*y);break;
+					case +1:data.oblique.v=x/y;break;
+					case -1:data.oblique.v=y/x;break;
 				}
 				break;
 		}
-		coord.calc();
+		func.update();
 	};
 	ael(i,"pointerdown",e=>{
 		if (!e.isPrimary) return;
@@ -58,8 +61,8 @@
 	};
 	ael(window,"keyup",e=>{
 		switch (e.key) {
-			case "d":funcs.renderer();break;
-			case "m":funcs.pointer();break;
+			case "d":renderer.next();func.update();break;
+			case "m":status.inputMode=(status.inputMode+1)%3;break;
 			case "x":case "y":tcd(1);break;
 			case "r":case "t":tcd(2);break;
 			case "o":tcd(4);break;
@@ -70,21 +73,12 @@
 	});
 
 	/* Watch input rect size */
-	let resized=()=>{
-		let r=i.getBoundingClientRect();
+	func.update(()=>{
+		let r=bcr(i);
 		w=r.width;
 		h=r.height;
-	};
-	ael(window,"resize",resized);
+	},true);
 
-	window.res("input",(c,s,f)=>{
-		coord=c;
-		status=s;
-		funcs=f;
-		return {
-			view:i,
-			resized:resized
-		};
-	});
+	return i;
 
-})();
+});

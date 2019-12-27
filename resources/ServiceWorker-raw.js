@@ -2,14 +2,15 @@ importScripts("../Library/SW/SW.js");
 
 cacheManager({
 	name:"Coordinates",
-	build:[2019,12,15],
+	build:[2019,12,27],
 	list:[
 		"Coord.html",
 		"resources/style.css",
 		"resources/menu.css",
 		"resources/font.css",
+		"resources/header.js",
 		"resources/core.js",
-		"resources/calc.js",
+		"resources/data.js",
 		"resources/canvas.js",
 		"resources/svg.js",
 		"resources/input.js",

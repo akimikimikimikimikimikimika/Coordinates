@@ -1,11 +1,32 @@
-(()=>{
+window.framework("data",(preset,func,status,bcr,dpr,main)=>{
 
-	var status,funcs;
+	let addCue=func.cueManager(()=>true);
 
-	let calc=()=>{
+	/* get viewport size */
+	addCue(true,()=>{
+		if (!main.renderer) return;
+		let r=bcr(main.renderer.view);
+		let w=r.width*dpr,h=r.height*dpr;
+		let c=(o.w!=w)||(o.h!=h); /* whether the size has changed */
+		if (c) {
+			o.w=w;
+			o.h=h;
+		}
+		if (first) {
+			first=false;
+			o.x=o.w*preset.c.x;
+			o.y=o.h*preset.c.y;
+			o.a=o.w*preset.a;
+			o.oblique.v=preset.v;
+		}
+	});
+	var first=true;
+
+	/* calculate each coordinate data */
+	addCue(false,()=>{
 		o.on=status.coordinates;
-		o.r=hypot(o.y,o.x),o.t=atan2(o.y,o.x);
-		let t2=o.t+(o.t<0?2*PI:0);
+		o.r=hypot(o.y,o.x),o.t=atan2(o.y,o.x); /* Polar */
+		let t2=o.t+(o.t<0?2*PI:0); /* o.t ∈ [-π,+π] → t2 ∈ [0,2π] */
 		/* Oblique */
 		if (o.on&4) {
 			let c=o.oblique;
@@ -57,8 +78,7 @@
 				v:v
 			};
 		}
-		funcs.draw();
-	};
+	});
 
 	let o={
 		x:0,y:0,r:0,t:0,a:0,w:0,h:0,
@@ -66,13 +86,9 @@
 		oblique:{x:0,y:0,v:0},
 		parabolic:{u:0,v:0},
 		elliptic:{u:0,v:0},
-		bipolar:{u:0,v:0},
-		calc:calc
+		bipolar:{u:0,v:0}
 	};
 
-	window.res("calculator",(s,f)=>{
-		status=s,funcs=f;
-		return o;
-	});
+	return o;
 
-})();
+});

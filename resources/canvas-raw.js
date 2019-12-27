@@ -1,14 +1,14 @@
-(()=>{
+window.framework("canvas",(func,data,che,gs,dpr)=>{
 
-	let c=document.createElement("canvas");
+	let c=che("canvas");
 	let ct=c.getContext("2d");
 
-	let style=k=>getComputedStyle(c).getPropertyValue(`--${k}`);
+	let style=k=>gs(c,`--${k}`,true);
 
-	let draw=o=>{
+	func.cueManager(()=>o.visible)(true,()=>{
 
-		let x=o.x,y=o.y,r=o.r,t=o.t,a=o.a,w=o.w/2,h=o.h/2,pr=window.devicePixelRatio;
-		let oo=o.on;
+		let x=data.x,y=data.y,r=data.r,t=data.t,a=data.a,w=data.w/2,h=data.h/2;
+		let oo=data.on;
 
 		let line=(x1,y1,x2,y2)=>{
 			ct.moveTo(w+x1,h-y1);
@@ -48,11 +48,11 @@
 		ct.clearRect(0,0,w*2,h*2);
 
 		ct.beginPath();
-		ct.lineWidth=1*pr;
+		ct.lineWidth=1*dpr;
 		hl(0);vl(0);
 		ct.strokeStyle=style("cartesian");
 		ct.stroke();
-		ct.lineWidth=3*pr;
+		ct.lineWidth=3*dpr;
 
 		/* Cartesian */
 		(()=>{
@@ -69,16 +69,16 @@
 			let v=o.v;
 			ct.strokeStyle=style("oblique");
 			ct.beginPath();
-			ct.lineWidth=1*pr;
+			ct.lineWidth=1*dpr;
 			linear(+v,-1,0);
 			linear(-1,+v,0);
 			ct.stroke();
 			ct.beginPath();
-			ct.lineWidth=3*pr;
+			ct.lineWidth=3*dpr;
 			linear(+v,-1,v*x-y);
 			linear(-1,+v,v*y-x);
 			ct.stroke();
-		})(o.oblique);
+		})(data.oblique);
 
 		/* Polar */
 		(()=>{
@@ -124,7 +124,7 @@
 				f(false,-1);
 			}
 			ct.stroke();
-		})(o.parabolic);
+		})(data.parabolic);
 
 		/* Elliptic */
 		(o=>{
@@ -187,7 +187,7 @@
 			if (s<1) {
 				ct.beginPath();
 				ct.strokeStyle=style("elliptic-counterpart");
-				ct.lineWidth=1*pr;
+				ct.lineWidth=1*dpr;
 				if (c==1) hl(0);
 				else {
 					let mx=min(w,h*c/s),my=min(w*s/c,h);
@@ -195,9 +195,9 @@
 					line(+mx,-my,-mx,+my);
 				}
 				ct.stroke();
-				ct.lineWidth=3*pr;
+				ct.lineWidth=3*dpr;
 			}
-		})(o.elliptic);
+		})(data.elliptic);
 
 		/* Bipolar */
 		(o=>{
@@ -230,21 +230,21 @@
 				ct.arc(x,y,r,t[0],t[1],o.u<0);
 			}
 			ct.stroke();
-		})(o.bipolar);
+		})(data.bipolar);
 
 		ct.beginPath();
 		ct.fillStyle=style("point");
-		circle(x,y,10*pr);
+		circle(x,y,10*dpr);
 		ct.fill();
 
-	};
+	});
 
-	window.res("canvas",{
+	let o={
 		name:"Canvas",
 		icon:"C",
 		artifact:c,
-		draw:draw,
-		redrawOnSchemeChanged:true
-	});
+		visible:false
+	};
+	return o;
 
-})();
+});
